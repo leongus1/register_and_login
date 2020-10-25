@@ -42,6 +42,7 @@ def register(request):
         Users.objects.create(first_name = request.POST['first_name'], last_name=request.POST['last_name'], birthdate=request.POST['birthdate'],email=request.POST['email'], password_hash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt()).decode())
         request.session['name']=request.POST['first_name']
         request.session['login']= True
+        request.session['reg_or_log'] = "registered new account"
         return redirect ('success/')
     
     
@@ -54,6 +55,7 @@ def log_check(request):
             print('Passwords match')
             request.session['name'] = logged_user.first_name
             request.session['login']=True
+            request.session['reg_or_log'] = "logged into account"
             return redirect ('/register/success/')
         else:
             print('Password does NOT match!')
