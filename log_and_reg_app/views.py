@@ -10,7 +10,6 @@ def index(request):
     return render(request, 'index.html')
 
 def login(request):
-    
     return render(request, 'logged_in.html')
 
 ###---REDIRECT
@@ -36,6 +35,7 @@ def register(request):
     
     
 def log_check(request):
+    request.session.flush()
     user = Users.objects.filter(email=request.POST['email'])
     if len(user)>0:
         logged_user=user[0]
@@ -50,11 +50,7 @@ def log_check(request):
     else:
         request.session['invalid_user_email'] = "Invalid User Email Address!!!"
         return redirect('/')
-        
-    
-        
-    
-
+     
 def logout(request):
     request.session.flush()
     return redirect('/')

@@ -40,7 +40,7 @@
             
             <h1>Login</h1>
             {{request.session.bad_pw}}
-            {{reques.session.invalid_user_email}}
+            {{request.session.invalid_user_email}}
             <form action="check_log/" method="post">
                 {% csrf_token %}
                 <label class="col1">Email</label>
