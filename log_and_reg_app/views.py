@@ -10,11 +10,22 @@ def index(request):
     return render(request, 'index.html')
 
 def login(request):
-    return render(request, 'logged_in.html')
+    try:
+        request.session['login']
+    except:
+        return redirect('/')
+    else:   
+        print('successful log in')
+        return render(request, 'logged_in.html')
 
 ###---REDIRECT
 def success_login(request):
-    return redirect('/register/success/')
+    if request.method == "GET":
+        print("a GET request came in")
+        return redirect ('/')
+    else:
+        print('a POST request came in')
+        return redirect('/register/success/')
 
 
 ###---DATA PROCESSING
@@ -42,6 +53,7 @@ def log_check(request):
         if bcrypt.checkpw(request.POST['pw'].encode(), logged_user.password_hash.encode()):
             print('Passwords match')
             request.session['name'] = logged_user.first_name
+            request.session['login']=True
             return redirect ('/register/success/')
         else:
             print('Password does NOT match!')
